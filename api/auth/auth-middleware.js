@@ -61,7 +61,6 @@ async function checkUsernameExists(req, res, next) {
   } catch (err) {
     next(err)
   }
-  next()
 }
 
 /*
@@ -73,7 +72,15 @@ async function checkUsernameExists(req, res, next) {
   }
 */
 function checkPasswordLength(req, res, next) {
-  next()
+  const { password } = req.body
+  if(!password || password.length <= 3) {
+    next({
+      status: 422,
+      message: "Password must be longer than 3 chars"
+    })
+  } else {
+    next()
+  }
 }
 
 // Don't forget to add these to the `exports` object so they can be required in other modules
