@@ -13,7 +13,6 @@ function restricted(req, res, next) {
   } else {
     next({ status: 401, message: "You shall not pass!" })
   }
-  next()
 }
 
 /*
@@ -39,7 +38,6 @@ async function checkUsernameFree(req, res, next) {
   } catch (err) {
     next(err)
   }
-  next()
 }
 
 /*

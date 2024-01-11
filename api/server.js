@@ -1,7 +1,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
-const db = require('../data/db-config')
+const knex = require('../data/db-config')
 
 const usersRouter = require('./users/users-router')
 const authRouter = require('./auth/auth-router')
@@ -18,7 +18,7 @@ server.use(session({
   saveUninitialized: false,
   resave: false,
   store: new Store({
-    db,
+    knex,
     createTable: true,
     clearInterval: 1000 * 60 * 10,
     tablename: 'sessions',
