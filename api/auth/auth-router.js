@@ -1,4 +1,6 @@
 const router = require('express').Router()
+const User = require('../users/users-model')
+const bcrypt = require('bcryptjs')
 const {
   checkPasswordLength,
   checkUsernameExists,
@@ -30,11 +32,19 @@ const {
     "message": "Password must be longer than 3 chars"
   }
  */
-router.post('/register', 
-  checkPasswordLength, 
-  checkUsernameFree, 
-  (req, res, next) => {
-  res.json('register')
+router.post('/register', checkPasswordLength, checkUsernameFree, async (req, res, next) => {
+    try {
+      const {username, password} = req.body
+      const hash = bcrypt.hashSync(password, 8)
+
+      const saved = await User.add({username, password: hash})
+      
+      res.status(201).json(saved)
+      
+    } catch (err) {
+      next(err)
+    }
+
 })
 
 /**
